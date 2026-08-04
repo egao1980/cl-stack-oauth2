@@ -1,18 +1,32 @@
 # cl-stack-oauth2
 
-OAuth2 token flows for [`cl-stack-http`](https://github.com/egao1980/cl-stack-http) — analogue of
-`requests-oauthlib` / Authlib client helpers.
+OAuth2 token flows for [`cl-stack-http`](https://github.com/egao1980/cl-stack-http) —
+analogue of `requests-oauthlib` / Authlib client helpers.
 
-Package: `cl-stack-oauth2` (nick `stack-oauth2`).
+Package: `cl-stack-oauth2` (nick `stack-oauth2`). **OCI: 0.1.0.**
 
-Implements the cl-stack-http CLOS auth protocol (`prepare-auth` / `handle-auth-response`):
-pass `oauth2-auth` as `:auth` for bearer get → refresh → 401 retry.
+Implements the cl-stack-http CLOS auth protocol (`prepare-auth` /
+`handle-auth-response`): pass `oauth2-auth` as `:auth` for bearer get → refresh →
+401 retry.
 
-JWT create/verify → [`cl-stack-jwt`](https://github.com/egao1980/cl-stack-jwt) (jose), not here.
+JWT create/verify → [`cl-stack-jwt`](https://github.com/egao1980/cl-stack-jwt)
+(jose), not here.
+
+## Install
+
+```lisp
+(cl-repo:load-system "cl-stack-http" :version "0.1.6")
+(cl-repo:load-system "cl-stack-oauth2" :version "0.1.0")
+```
+
+OCI: `ghcr.io/egao1980/cl-systems/cl-stack-oauth2:0.1.0`
+
+Requires `cl-stack-http` **≥ 0.1.1** (CLOS auth protocol).
 
 ## Scopes
 
-RFC 6749 §3.3: space-delimited strings. API accepts **string or list**; stored normalized.
+RFC 6749 §3.3: space-delimited strings. API accepts **string or list**; stored
+normalized.
 
 ```lisp
 (make-oauth2-auth :scope '("openid" "profile" "api.read"))
@@ -38,11 +52,12 @@ RFC 6749 §3.3: space-delimited strings. API accepts **string or list**; stored 
 
 `:resource` — RFC 8707 (string or list; repeated query/form fields).
 
+Also: `oauth2-authorization-uri`, `oauth2-exchange-code!`, `oauth2-revoke!`
+(RFC 7009), custom `:get-token-fn` / `:refresh-fn`.
+
 ## Quick start
 
 ```lisp
-(ql:quickload '(:cl-stack-http :cl-stack-oauth2))
-
 (defvar *auth*
   (stack-oauth2:make-oauth2-auth
    :token-url "https://as.example/oauth/token"
@@ -70,10 +85,6 @@ RFC 6749 §3.3: space-delimited strings. API accepts **string or list**; stored 
 (stack-oauth2:oauth2-exchange-code! *auth* :code "…")
 ```
 
-## Install
+## License
 
-```lisp
-(cl-repo:load-system "cl-stack-oauth2" :version "0.1.0")
-```
-
-OCI: `ghcr.io/egao1980/cl-systems/cl-stack-oauth2:0.1.0` (after publish).
+MIT
