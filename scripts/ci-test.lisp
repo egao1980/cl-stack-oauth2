@@ -1,3 +1,5 @@
+;;;; Phase 2: load SUT + run tests (install already fetched deps).
+
 (setf *debugger-hook*
       (lambda (c h)
         (declare (ignore h))
@@ -18,17 +20,12 @@
   (funcall fn))
 
 (call-with-ci-muffles (lambda () (asdf:load-system "cl-repository-client")))
-(cl-repository-client/asdf-integration:configure-asdf-source-registry)
-(cl-repository-client/asdf-integration:load-system-init-files)
+(cl-repo:configure-asdf-source-registry)
+(cl-repo:load-system-init-files)
 
 (call-with-ci-muffles
  (lambda ()
-   (dolist (n '("rove" "alexandria" "babel" "yason" "trivial-mimes"
-                "ironclad" "cl-base64" "quri" "dexador"
-                "cl-stack-http" "http-protocol" "http-backend-dexador"))
-     (unless (asdf:find-system n nil)
-       (format t "~&; ci: ql fallback ~a~%" n)
-       (ql:quickload n :silent t)))
+   (asdf:load-system "http-backend-dexador")
    (asdf:load-system "cl-stack-oauth2")
    (unless (fboundp (find-symbol "PREPARE-AUTH" :cl-stack-http))
      (error "cl-stack-http missing CLOS auth protocol (need ≥0.1.1 with auth-protocol.lisp)"))

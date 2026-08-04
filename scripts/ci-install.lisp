@@ -1,5 +1,5 @@
 ;;;; Phase 1: install SUT dependency closure via cl-repository-client.
-;;;; No ASDF-load of overlay-sensitive systems — that happens in ci-test.
+;;;; http-backend-dexador is CI :with (needed to exercise cl-stack-http; not in oauth2.asd).
 
 (setf *debugger-hook*
       (lambda (c h)
@@ -28,6 +28,7 @@
  (lambda ()
    (cl-repo:ensure-system-dependencies "cl-stack-oauth2"
      :also-tests t
+     :with '("http-backend-dexador")
      :sources '(("babel" :ql)
                 ("trivial-features" :ql)
                 ("cl-unicode" :ql)))))
