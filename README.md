@@ -85,6 +85,16 @@ Also: `oauth2-authorization-uri`, `oauth2-exchange-code!`, `oauth2-revoke!`
 (stack-oauth2:oauth2-exchange-code! *auth* :code "…")
 ```
 
+## Publish
+
+Source-only OCI publish is centralized in [`cl-stack-systems`](https://github.com/egao1980/cl-stack-systems)
+(`imports/cl-stack-oauth2/qlfile` pin + shared `publish.yml`). Packaging metadata lives in the `.asd`
+(`auto-package-spec`):
+
+```bash
+gh workflow run publish.yml -R egao1980/cl-stack-systems -f import=cl-stack-oauth2
+```
+
 ## License
 
 MIT
