@@ -10,6 +10,11 @@
                "cl-base64"
                "ironclad"
                "quri")
+  :properties
+  (:cl-repo
+   (:ci (:with ("http-backend-dexador")
+         :sources (("babel" :ql) ("trivial-features" :ql) ("cl-unicode" :ql))
+         :load-before-test ("http-backend-dexador"))))
   :serial t
   :pathname "src"
   :components ((:file "package")
