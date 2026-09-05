@@ -1,7 +1,7 @@
 (in-package #:cl-stack-oauth2)
 
 (defun %random-state (&optional (nbytes 16))
-  (%b64url-octets (ironclad:random-data nbytes)))
+  (%b64url-octets (secrets-protocol:random-bytes nbytes)))
 
 (defun oauth2-authorization-uri (auth &key scope state
                                         (pkce nil pkce-p)

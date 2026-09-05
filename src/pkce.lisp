@@ -7,7 +7,7 @@
 
 (defun %random-verifier (&optional (nbytes 32))
   "High-entropy code_verifier (43–128 chars base64url)."
-  (%b64url-octets (ironclad:random-data nbytes)))
+  (%b64url-octets (secrets-protocol:random-bytes nbytes)))
 
 (defun make-pkce (&key (verifier nil) (method :s256))
   "Return plist (:verifier :challenge :method). METHOD is :S256 (default) or :PLAIN."
@@ -17,9 +17,9 @@
            (ecase method
              (:s256
               (%b64url-octets
-               (ironclad:digest-sequence
-                :sha256
-                (encoding-protocol:encode verifier))))
+               (crypto-protocol:digest
+                (encoding-protocol:encode verifier)
+                :algorithm :sha256)))
              (:plain verifier))))
     (list :verifier verifier
           :challenge challenge
