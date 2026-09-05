@@ -1,5 +1,5 @@
 (defsystem "cl-stack-oauth2"
-  :version "0.1.0"
+  :version "0.1.1"
   :description "OAuth2 token flows for cl-stack-http (scopes, grants, PKCE, 401 refresh)"
   :author "egao1980"
   :license "MIT"
@@ -7,12 +7,13 @@
                "http-protocol"
                "alexandria"
                "babel"
-               "cl-base64"
+               "encoding-protocol"
                "ironclad"
                "quri")
   :properties
   (:cl-repo
    (:ci (:with ("http-backend-dexador")
+         :sources (("encoding-protocol" :oci))
          :load-before-test ("http-backend-dexador"))))
   :serial t
   :pathname "src"
