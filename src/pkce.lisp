@@ -19,7 +19,7 @@
               (%b64url-octets
                (crypto-protocol:digest
                 (babel:string-to-octets verifier :encoding :utf-8)
-                :algorithm :sha256))))
+                :algorithm :sha256)))
              (:plain verifier))))
     (list :verifier verifier
           :challenge challenge
