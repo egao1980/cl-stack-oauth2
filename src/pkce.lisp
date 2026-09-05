@@ -3,11 +3,7 @@
 ;;; RFC 7636 — PKCE (S256).
 
 (defun %b64url-octets (octets)
-  (let* ((b64 (cl-base64:usb8-array-to-base64-string octets))
-         (s (remove #\= b64 :test #'char=)))
-    (nsubstitute #\- #\+ s :test #'char=)
-    (nsubstitute #\_ #\/ s :test #'char=)
-    s))
+  (encoding-protocol:encode octets :encoding :base64url :pad nil))
 
 (defun %random-verifier (&optional (nbytes 32))
   "High-entropy code_verifier (43–128 chars base64url)."
