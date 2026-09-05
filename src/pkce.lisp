@@ -19,7 +19,7 @@
               (%b64url-octets
                (ironclad:digest-sequence
                 :sha256
-                (babel:string-to-octets verifier :encoding :utf-8))))
+                (encoding-protocol:encode verifier))))
              (:plain verifier))))
     (list :verifier verifier
           :challenge challenge

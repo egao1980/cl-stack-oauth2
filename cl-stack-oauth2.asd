@@ -1,12 +1,11 @@
 (defsystem "cl-stack-oauth2"
-  :version "0.1.1"
+  :version "0.1.2"
   :description "OAuth2 token flows for cl-stack-http (scopes, grants, PKCE, 401 refresh)"
   :author "egao1980"
   :license "MIT"
   :depends-on ("cl-stack-http"
                "http-protocol"
                "alexandria"
-               "babel"
                "encoding-protocol"
                "ironclad"
                "quri")
