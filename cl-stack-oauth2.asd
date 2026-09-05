@@ -13,7 +13,6 @@
   :properties
   (:cl-repo
    (:ci (:with ("http-backend-dexador")
-
          :load-before-test ("http-backend-dexador"))))
   :serial t
   :pathname "src"
