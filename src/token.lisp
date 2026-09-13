@@ -114,6 +114,7 @@
   "Update AUTH from token JSON. Captures granted scope from `scope` if present."
   (let* ((access (%json-get response-data "access_token"))
          (refresh (%json-get response-data "refresh_token"))
+         (id-token (%json-get response-data "id_token"))
          (token-type (%json-get response-data "token_type"))
          (expires-in (%json-get response-data "expires_in"))
          (scope (%json-get response-data "scope"))
@@ -128,6 +129,8 @@
              :body response-data
              :message (format nil "token response missing access_token: ~S" response-data)))
     (setf (oauth2-access-token auth) access)
+    (when id-token
+      (setf (oauth2-id-token auth) id-token))
     (when refresh
       (setf (oauth2-refresh-token auth) refresh))
     (when token-type
