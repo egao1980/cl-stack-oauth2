@@ -1,9 +1,9 @@
 # cl-stack-oauth2
 
-OAuth2 token flows for [`cl-stack-http`](https://github.com/egao1980/cl-stack-http) —
+OAuth2 + OIDC token flows for [`cl-stack-http`](https://github.com/egao1980/cl-stack-http) —
 analogue of `requests-oauthlib` / Authlib client helpers.
 
-Package: `cl-stack-oauth2` (nick `stack-oauth2`). **OCI: 0.1.0.**
+Package: `cl-stack-oauth2` (nick `stack-oauth2`). **OCI: 0.2.0.**
 
 Implements the cl-stack-http CLOS auth protocol (`prepare-auth` /
 `handle-auth-response`): pass `oauth2-auth` as `:auth` for bearer get → refresh →
@@ -16,10 +16,10 @@ JWT create/verify → [`cl-stack-jwt`](https://github.com/egao1980/cl-stack-jwt)
 
 ```lisp
 (cl-repo:load-system "cl-stack-http" :version "0.1.6")
-(cl-repo:load-system "cl-stack-oauth2" :version "0.1.0")
+(cl-repo:load-system "cl-stack-oauth2" :version "0.2.0")
 ```
 
-OCI: `ghcr.io/egao1980/cl-systems/cl-stack-oauth2:0.1.0`
+OCI: `ghcr.io/egao1980/cl-systems/cl-stack-oauth2:0.2.0`
 
 Requires `cl-stack-http` **≥ 0.1.1** (CLOS auth protocol).
 
@@ -54,6 +54,35 @@ normalized.
 
 Also: `oauth2-authorization-uri`, `oauth2-exchange-code!`, `oauth2-revoke!`
 (RFC 7009), custom `:get-token-fn` / `:refresh-fn`.
+
+## OIDC
+
+Discovery, JWKS (`kid` cache), and ID-token validation via
+[`cl-stack-jwt`](https://github.com/egao1980/cl-stack-jwt). Default `alg`
+allowlist is `("RS256")`. SCIM is not implemented.
+
+```lisp
+(defvar *disc*
+  (stack-oauth2:fetch-oidc-discovery "https://idp.example"))
+
+(defvar *auth*
+  (stack-oauth2:make-oidc-auth
+   :client-id "cid" :redirect-uri "https://app/cb"
+   :scope "profile"))
+(stack-oauth2:apply-oidc-discovery! *auth* *disc*)
+(stack-oauth2:oidc-authorization-url *auth* :pkce t)
+;; → scope includes openid, nonce is stored on AUTH
+
+(stack-oauth2:validate-id-token
+ id-token
+ :jwks (stack-oauth2:fetch-jwks (stack-oauth2:oidc-jwks-uri *disc*))
+ :issuer (stack-oauth2:oidc-issuer *disc*)
+ :audience "cid"
+ :nonce (stack-oauth2:oauth2-nonce *auth*))
+```
+
+`oidc-client-credentials!` is a thin wrapper around the existing
+client-credentials grant. Token responses may populate `oauth2-id-token`.
 
 ## Quick start
 

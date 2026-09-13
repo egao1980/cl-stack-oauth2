@@ -38,6 +38,9 @@
    (code :initarg :code :accessor oauth2-code :initform nil)
    (code-verifier :initarg :code-verifier :accessor oauth2-code-verifier :initform nil)
    (state :initarg :state :accessor oauth2-state :initform nil)
+   (nonce :initarg :nonce :accessor oauth2-nonce :initform nil
+          :documentation "OIDC nonce stored for ID-token validation.")
+   (id-token :initarg :id-token :accessor oauth2-id-token :initform nil)
    (grant :initarg :grant :accessor oauth2-grant :initform nil
           :documentation ":client-credentials | :password | :refresh-token | :authorization-code | NIL (auto).")
    (extra-params :initarg :extra-params :accessor oauth2-extra-params :initform nil
@@ -60,7 +63,7 @@
                            client-id client-secret client-auth
                            username password
                            scope granted-scope audience resource
-                           redirect-uri code code-verifier state
+                           redirect-uri code code-verifier state nonce id-token
                            grant extra-params
                            get-token-fn refresh-fn leeway
                          &allow-other-keys)
@@ -68,7 +71,8 @@
   (declare (ignore access-token refresh-token token-type expires-at token-url
                    authorize-url revoke-url client-id client-secret client-auth
                    username password scope granted-scope audience resource
-                   redirect-uri code code-verifier state grant extra-params
+                   redirect-uri code code-verifier state nonce id-token
+                   grant extra-params
                    get-token-fn refresh-fn leeway))
   (let* ((keys (copy-list keys))
          (expires-in (getf keys :expires-in))

@@ -40,6 +40,8 @@
    #:oauth2-code
    #:oauth2-code-verifier
    #:oauth2-state
+   #:oauth2-nonce
+   #:oauth2-id-token
    #:oauth2-grant
    #:oauth2-extra-params
    #:oauth2-get-token-fn
@@ -58,4 +60,35 @@
    #:oauth2-error
    #:oauth2-error-message
    #:oauth2-error-status
-   #:oauth2-error-body))
+   #:oauth2-error-body
+   ;; OIDC
+   #:oidc-error
+   #:oidc-id-token-error
+   #:oidc-claim-error
+   #:oidc-error-claim
+   #:oidc-discovery
+   #:oidc-discovery-p
+   #:oidc-issuer
+   #:oidc-authorization-endpoint
+   #:oidc-token-endpoint
+   #:oidc-jwks-uri
+   #:oidc-userinfo-endpoint
+   #:oidc-end-session-endpoint
+   #:oidc-discovery-raw
+   #:oidc-discovery-url
+   #:parse-oidc-discovery
+   #:fetch-oidc-discovery
+   #:apply-oidc-discovery!
+   #:jwks-cache
+   #:jwks-cache-p
+   #:make-jwks-cache
+   #:jwks-cache-uri
+   #:jwks-cache-keys
+   #:jwks-cache-get
+   #:jwks-cache-put
+   #:jwks-cache-ingest
+   #:fetch-jwks
+   #:validate-id-token
+   #:oidc-authorization-url
+   #:oidc-client-credentials!
+   #:make-oidc-auth))
